@@ -1,8 +1,11 @@
-package com.duosecurity;
+package com.duosecurity.duoweb;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DuoTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class DuoTest {
 
 	/* Dummy IKEY and SKEY values */
 	private static final String IKEY = "DIXXXXXXXXXXXXXXXXXX";
@@ -17,7 +20,7 @@ public class DuoTest extends TestCase {
 	private static final String EXPIRED_RESPONSE = "AUTH|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTMwMDE1Nzg3NA==|cb8f4d60ec7c261394cd5ee5a17e46ca7440d702";
 	private static final String FUTURE_RESPONSE = "AUTH|dGVzdHVzZXJ8RElYWFhYWFhYWFhYWFhYWFhYWFh8MTYxNTcyNzI0Mw==|d20ad0d1e62d84b00a3e74ec201a5917e77b6aef";
 
-	public void testSignRequest() {
+	@Test public void testSignRequest() {
 		String request_sig;
 
 		request_sig = DuoWeb.signRequest(IKEY, SKEY, AKEY, USER);
@@ -36,7 +39,7 @@ public class DuoTest extends TestCase {
 		assertEquals(request_sig, DuoWeb.ERR_AKEY);
 	}
 
-	public void testVerifyResponse() {
+	@Test public void testVerifyResponse() {
 		String[] sigs;
 		String request_sig;
 		String valid_app_sig, invalid_app_sig;

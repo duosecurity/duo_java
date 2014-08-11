@@ -1,4 +1,4 @@
-package com.duosecurity;
+package com.duosecurity.duoweb;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

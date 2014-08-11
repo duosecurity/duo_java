@@ -1,4 +1,4 @@
-package com.duosecurity;
+package com.duosecurity.duoweb;
 
 public class Base64 {
 
