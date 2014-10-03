@@ -1,7 +1,11 @@
 package com.duosecurity.duoweb;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -53,16 +57,31 @@ public class DuoTest {
 		sigs = request_sig.split(":");
 		invalid_app_sig = sigs[1];
 
-		invalid_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, INVALID_RESPONSE + ":" + valid_app_sig);
-		assertEquals(invalid_user, null);
+    try {
+      invalid_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, INVALID_RESPONSE + ":" + valid_app_sig);
+      fail();
+    } catch (Exception e) {
+    }
 
-		expired_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, EXPIRED_RESPONSE + ":" + valid_app_sig);
-		assertEquals(expired_user, null);
+    try {
+      expired_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, EXPIRED_RESPONSE + ":" + valid_app_sig);
+      fail();
+    } catch (Exception e) {
 
-		future_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + invalid_app_sig);
-		assertEquals(future_user, null);
+    }
 
-		future_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + valid_app_sig);
-		assertEquals(future_user, USER);
+    try {
+      future_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + invalid_app_sig);
+      fail();
+    } catch (Exception e) {
+
+    }
+
+    try {
+      future_user = DuoWeb.verifyResponse(IKEY, SKEY, AKEY, FUTURE_RESPONSE + ":" + valid_app_sig);
+      assertEquals(future_user, USER);
+    } catch (Exception e) {
+      fail();
+    }
 	}
 }
