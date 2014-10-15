@@ -4,6 +4,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <scm>
+    <connection>scm:git:git://github.com/duosecurity/duo_java.git</connection>
+    <developerConnection>scm:git:git@github.com:duosecurity/duo_java.git</developerConnection>
+    <url>https://github.com/duosecurity/duo_java</url>
+  </scm>
+
   <groupId>com.duosecurity</groupId>
   <artifactId>DuoWeb</artifactId>
   <version>1.1-SNAPSHOT</version>
@@ -16,5 +22,18 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
