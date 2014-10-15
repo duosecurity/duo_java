@@ -6,7 +6,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/duosecurity/duo_java.git</connection>
-    <developerConnection>scm:git:git@github.com:duosecurity/duo_java.git</developerConnection>
+    <developerConnection>scm:git:ssh://git@github.com/duosecurity/duo_java.git</developerConnection>
     <url>https://github.com/duosecurity/duo_java</url>
   </scm>
 
