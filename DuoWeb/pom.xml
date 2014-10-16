@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <scm>
     <connection>scm:git:git://github.com/duosecurity/duo_java.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/duosecurity/duo_java.git</developerConnection>
     <url>https://github.com/duosecurity/duo_java</url>
-    <tag>HEAD</tag>
   </scm>
 
   <groupId>com.duosecurity</groupId>
   <artifactId>DuoWeb</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
