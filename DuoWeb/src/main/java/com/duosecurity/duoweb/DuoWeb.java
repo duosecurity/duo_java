@@ -29,6 +29,9 @@ public final class DuoWeb {
 		if (username.equals("")) {
 			return ERR_USER;
 		}
+		if (username.indexOf('|') != -1) {
+			return ERR_USER;
+		}
 		if (ikey.equals("") || ikey.length() != IKEY_LEN) {
 			return ERR_IKEY;
 		}
@@ -50,27 +53,27 @@ public final class DuoWeb {
 	}
 
 	public static String verifyResponse(String ikey, String skey, String akey, String sig_response)
-      throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
 		String auth_user = null;
 		String app_user = null;
 
-    String[] sigs = sig_response.split(":");
-    String auth_sig = sigs[0];
-    String app_sig = sigs[1];
+		String[] sigs = sig_response.split(":");
+		String auth_sig = sigs[0];
+		String app_sig = sigs[1];
 
-    auth_user = parseVals(skey, auth_sig, AUTH_PREFIX);
-    app_user = parseVals(akey, app_sig, APP_PREFIX);
+		auth_user = parseVals(skey, auth_sig, AUTH_PREFIX, ikey);
+		app_user = parseVals(akey, app_sig, APP_PREFIX, ikey);
 
-    if (!auth_user.equals(app_user)) {
+		if (!auth_user.equals(app_user)) {
 			throw new DuoWebException("Authentication failed.");
 		}
 
 		return auth_user;
 	}
 
-  private static String signVals(String key, String username, String ikey, String prefix,
-      int expire) throws InvalidKeyException, NoSuchAlgorithmException {
-    long ts = System.currentTimeMillis() / 1000;
+	private static String signVals(String key, String username, String ikey, String prefix, int expire) 
+		throws InvalidKeyException, NoSuchAlgorithmException {
+		long ts = System.currentTimeMillis() / 1000;
 		long expire_ts = ts + expire;
 		String exp = Long.toString(expire_ts);
 
@@ -81,11 +84,15 @@ public final class DuoWeb {
 		return cookie + "|" + sig;
 	}
 
-	private static String parseVals(String key, String val, String prefix)
-      throws InvalidKeyException, NoSuchAlgorithmException, IOException, DuoWebException {
+	private static String parseVals(String key, String val, String prefix, String ikey)
+		throws InvalidKeyException, NoSuchAlgorithmException, IOException, DuoWebException {
 		long ts = System.currentTimeMillis() / 1000;
 
 		String[] parts = val.split("\\|");
+		if (parts.length != 3) {
+			throw new DuoWebException("Invalid response");
+		}
+
 		String u_prefix = parts[0];
 		String u_b64 = parts[1];
 		String u_sig = parts[2];
@@ -103,14 +110,22 @@ public final class DuoWeb {
 		String cookie = new String(decoded);
 
 		String[] cookie_parts = cookie.split("\\|");
+		if (cookie_parts.length != 3) {
+			throw new DuoWebException("Invalid response");
+		}
 		String username = cookie_parts[0];
+		String u_ikey = cookie_parts[1];
 		String expire = cookie_parts[2];
+
+		if (!u_ikey.equals(ikey)) {
+			throw new DuoWebException("Invalid response");
+		}
 
 		long expire_ts = Long.parseLong(expire);
 		if (ts >= expire_ts) {
 			throw new DuoWebException("Transaction has expired. Please check that the system time is correct.");
 		}
 
-		return username;		
+		return username;
 	}
 }
