@@ -1,0 +1,19 @@
+language: java
+dist: trusty
+jdk:
+    - oraclejdk8
+    - openjdk8
+    - openjdk7
+install:
+    - >
+        mvn install
+        --define "skipTests=true"
+        --define "maven.javadoc.skip=true"
+        --batch-mode
+        --show-version
+        --file DuoWeb/pom.xml
+script:
+    - >
+        mvn test
+        --batch-mode
+        --file DuoWeb/pom.xml
