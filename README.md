@@ -1,5 +1,7 @@
 # Overview
 
+[![Build Status](https://travis-ci.org/duosecurity/duo_java.svg?branch=master)](https://travis-ci.org/duosecurity/duo_java)
+
 **duo_java** - Duo two-factor authentication for Java web applications
 
 This package allows a web developer to quickly add Duo's interactive, self-service, two-factor authentication to any web login form - without setting up secondary user accounts, directory synchronization, servers, or hardware.
