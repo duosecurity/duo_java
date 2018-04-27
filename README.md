@@ -13,6 +13,8 @@ What's here:
 
 # Usage
 
+This library requires Java 6 or later.
+
 Developer documentation: <http://www.duosecurity.com/docs/duoweb>
 
 # Support
