@@ -15,6 +15,8 @@ What's here:
 
 This library requires Java 6 or later.
 
+The Java WebSDK project is not currently available from Duo Security on Maven.  Currently this GitHub project is the only supported source for the Duo Java WebSDK.
+
 Developer documentation: <http://www.duosecurity.com/docs/duoweb>
 
 # Support
