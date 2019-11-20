@@ -8,6 +8,8 @@ public final class DuoWeb {
 	private static final String DUO_PREFIX = "TX";
 	private static final String APP_PREFIX = "APP";
 	private static final String AUTH_PREFIX = "AUTH";
+	private static final String ENROLL_PREFIX = "ENROLL";
+	private static final String ENROLL_REQUEST_PREFIX = "ENROLL_REQUEST";
 
 	private static final int DUO_EXPIRE = 300;
 	private static final int APP_EXPIRE = 3600;
@@ -26,34 +28,16 @@ public final class DuoWeb {
 		return signRequest(ikey, skey, akey, username, System.currentTimeMillis() / 1000);
 	}
 
+	public static String signEnrollmentRequest(final String ikey, final String skey, final String akey, final String username){
+		return signEnrollmentRequest(ikey, skey, akey, username, System.currentTimeMillis() / 1000);
+	}
+
 	public static String signRequest(final String ikey, final String skey, final String akey, final String username, final long time) {
-		final String duo_sig;
-		final String app_sig;
+		return signRequest(ikey, skey, akey, username, time, DUO_PREFIX);
+	}
 
-		if (username.equals("")) {
-			return ERR_USER;
-		}
-		if (username.indexOf('|') != -1) {
-			return ERR_USER;
-		}
-		if (ikey.equals("") || ikey.length() != IKEY_LEN) {
-			return ERR_IKEY;
-		}
-		if (skey.equals("") || skey.length() != SKEY_LEN) {
-			return ERR_SKEY;
-		}
-		if (akey.equals("") || akey.length() < AKEY_LEN) {
-			return ERR_AKEY;
-		}
-
-		try {
-			duo_sig = signVals(skey, username, ikey, DUO_PREFIX, DUO_EXPIRE, time);
-			app_sig = signVals(akey, username, ikey, APP_PREFIX, APP_EXPIRE, time);
-		} catch (Exception e) {
-			return ERR_UNKNOWN;
-		}
-
-		return duo_sig + ":" + app_sig;
+	public static String signEnrollmentRequest(final String ikey, final String skey, final String akey, final String username, final long time) {
+		return signRequest(ikey, skey, akey, username, time, ENROLL_REQUEST_PREFIX);
 	}
 
 	public static String verifyResponse(final String ikey, final String skey, final String akey, final String sig_response)
@@ -61,26 +45,22 @@ public final class DuoWeb {
 		return verifyResponse(ikey, skey, akey, sig_response, System.currentTimeMillis() / 1000);
 	}
 
-	public static String verifyResponse(final String ikey, final String skey, final String akey, final String sig_response, final long time)
+	public static String verifyEnrollmentResponse(final String ikey, final String skey, final String akey, final String sig_response)
 		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
-		String auth_user = null;
-		String app_user = null;
-
-		final String[] sigs = sig_response.split(":");
-		final String auth_sig = sigs[0];
-		final String app_sig = sigs[1];
-
-		auth_user = parseVals(skey, auth_sig, AUTH_PREFIX, ikey, time);
-		app_user = parseVals(akey, app_sig, APP_PREFIX, ikey, time);
-
-		if (!auth_user.equals(app_user)) {
-			throw new DuoWebException("Authentication failed.");
-		}
-
-		return auth_user;
+		return verifyResponse(ikey, skey, akey, sig_response, System.currentTimeMillis() / 1000);
 	}
 
-	private static String signVals(final String key, final String username, final String ikey, final String prefix, final int expire, final long time) 
+	public static String verifyResponse(final String ikey, final String skey, final String akey, final String sig_response, final long time)
+		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+		return verifyResponse(ikey, skey, akey, sig_response, time, AUTH_PREFIX);
+	}
+
+	public static String verifyEnrollmentResponse(final String ikey, final String skey, final String akey, final String sig_response, final long time)
+		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+		return verifyResponse(ikey, skey, akey, sig_response, time, ENROLL_PREFIX);
+	}
+
+	private static String signVals(final String key, final String username, final String ikey, final String prefix, final int expire, final long time)
 		throws InvalidKeyException, NoSuchAlgorithmException {
 		final long expire_ts = time + expire;
 		final String exp = Long.toString(expire_ts);
@@ -135,4 +115,54 @@ public final class DuoWeb {
 
 		return username;
 	}
+
+	private static String signRequest(final String ikey, final String skey, final String akey, final String username, final long time, final String prefix) {
+		final String duo_sig;
+		final String app_sig;
+
+		if (username.equals("")) {
+			return ERR_USER;
+		}
+		if (username.indexOf('|') != -1) {
+			return ERR_USER;
+		}
+		if (ikey.equals("") || ikey.length() != IKEY_LEN) {
+			return ERR_IKEY;
+		}
+		if (skey.equals("") || skey.length() != SKEY_LEN) {
+			return ERR_SKEY;
+		}
+		if (akey.equals("") || akey.length() < AKEY_LEN) {
+			return ERR_AKEY;
+		}
+
+		try {
+			duo_sig = signVals(skey, username, ikey, prefix, DUO_EXPIRE, time);
+			app_sig = signVals(akey, username, ikey, APP_PREFIX, APP_EXPIRE, time);
+		} catch (final Exception e) {
+			return ERR_UNKNOWN;
+		}
+
+		return duo_sig + ":" + app_sig;
+	}
+
+	private static String verifyResponse(final String ikey, final String skey, final String akey, final String sig_response, final long time, final String prefix)
+		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+		String auth_user = null;
+		String app_user = null;
+
+		final String[] sigs = sig_response.split(":");
+		final String auth_sig = sigs[0];
+		final String app_sig = sigs[1];
+
+		auth_user = parseVals(skey, auth_sig, prefix, ikey, time);
+		app_user = parseVals(akey, app_sig, APP_PREFIX, ikey, time);
+
+		if (!auth_user.equals(app_user)) {
+			throw new DuoWebException("Authentication failed.");
+		}
+
+		return auth_user;
+	}
+
 }
