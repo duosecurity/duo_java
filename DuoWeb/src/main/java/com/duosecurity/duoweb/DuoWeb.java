@@ -47,7 +47,7 @@ public final class DuoWeb {
 
 	public static String verifyEnrollmentResponse(final String ikey, final String skey, final String akey, final String sig_response)
 		throws DuoWebException, NoSuchAlgorithmException, InvalidKeyException, IOException {
-		return verifyResponse(ikey, skey, akey, sig_response, System.currentTimeMillis() / 1000);
+		return verifyEnrollmentResponse(ikey, skey, akey, sig_response, System.currentTimeMillis() / 1000);
 	}
 
 	public static String verifyResponse(final String ikey, final String skey, final String akey, final String sig_response, final long time)
