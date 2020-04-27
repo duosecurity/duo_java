@@ -1,6 +1,10 @@
 # Overview
 
 [![Build Status](https://travis-ci.org/duosecurity/duo_java.svg?branch=master)](https://travis-ci.org/duosecurity/duo_java)
+[![Issues](https://img.shields.io/github/issues/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/issues)
+[![Forks](https://img.shields.io/github/forks/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/network/members)
+[![Stars](https://img.shields.io/github/stars/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/stargazers)
+[![License](https://img.shields.io/badge/License-View%20License-orange)](https://github.com/duosecurity/duo_java/blob/master/LICENSE)
 
 **duo_java** - Duo two-factor authentication for Java web applications
 
