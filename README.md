@@ -8,6 +8,9 @@
 
 **duo_java** - Duo two-factor authentication for Java web applications
 
+Duo has released a new Java client that will let you integrate the Duo Universal Prompt into your web applications.
+Check out https://duo.com/docs/duoweb-v4 for more info on the Universal Prompt and [duo_universal_java](https://github.com/duosecurity/duo_universal_java) for the new client.
+
 This package allows a web developer to quickly add Duo's interactive, self-service, two-factor authentication to any web login form - without setting up secondary user accounts, directory synchronization, servers, or hardware.
 
 What's here:
