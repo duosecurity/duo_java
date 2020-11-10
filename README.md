@@ -1,6 +1,6 @@
 # Overview
 
-[![Build Status](https://travis-ci.org/duosecurity/duo_java.svg?branch=master)](https://travis-ci.org/duosecurity/duo_java)
+[![Build Status](https://github.com/duosecurity/duo_java/workflows/Java%20CI/badge.svg)](https://github.com/duosecurity/duo_universal_java/actions)
 [![Issues](https://img.shields.io/github/issues/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/issues)
 [![Forks](https://img.shields.io/github/forks/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/network/members)
 [![Stars](https://img.shields.io/github/stars/duosecurity/duo_java)](https://github.com/duosecurity/duo_java/stargazers)

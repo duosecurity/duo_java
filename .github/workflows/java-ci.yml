@@ -1,0 +1,27 @@
+name: Java CI
+on: [push, pull_request]
+
+jobs:
+   build-and-test:
+     runs-on: ubuntu-latest
+
+     strategy:
+        matrix:
+            java: [7, 8]
+     steps:
+       - uses: actions/checkout@v2
+       - name: Set up Java
+         uses: actions/setup-java@v1
+         with:
+           java-version: ${{ matrix.java }}
+       - name: Build with Maven
+         run: mvn install
+              --define "skipTests=true"
+              --define "maven.javadoc.skip=true"
+              --batch-mode
+              --show-version
+         working-directory: ./DuoWeb
+       - name: Test with Maven
+         run: mvn test 
+              --batch-mode
+         working-directory: ./DuoWeb
