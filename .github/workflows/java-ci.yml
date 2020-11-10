@@ -22,9 +22,9 @@ jobs:
           --define "mavin.javadoc.skip=true" 
           --batch-mode 
           --show-version 
-          --file duo-client/pom.xml
+          --file DuoWeb/pom.xml
       - name: Test with Maven
         run: >
           mvn test 
           --batch-mode 
-          -file duo-client/pom.xml
+          -file DuoWeb/pom.xml
